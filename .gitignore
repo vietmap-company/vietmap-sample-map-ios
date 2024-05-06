@@ -1,0 +1,14 @@
+.DS_Store
+.idea
+
+xcuserdata
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+IDEWorkspaceChecks.plist
+
+Pods/
+
+/documentation
+/build
