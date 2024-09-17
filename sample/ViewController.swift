@@ -9,9 +9,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var useCustomCallOut: UIButton!
     @IBOutlet weak var longPressHintView: UILabel!
 
-    var mapView: MGLMapView!
+    var mapView: MLNMapView!
     var coordinates: [CLLocationCoordinate2D] = []
-    var polygon: MGLPolygon?
+    var polygon: MLNPolygon?
     
     var isShowPolygon: Bool = false
     var isShowMiniMap: Bool = false
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     
     
     func startMapView() {
-        mapView = MGLMapView(frame: view.bounds, styleURL: URL(string: "https://maps.vietmap.vn/api/maps/light/styles.json?apikey=YOUR_API_KEY_HERE"))
+        mapView = MLNMapView(frame: view.bounds, styleURL: URL(string: "https://maps.vietmap.vn/api/maps/light/styles.json?apikey=YOUR_API_KEY_HERE"))
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.delegate = self
         mapView.userTrackingMode = .follow
@@ -49,7 +49,7 @@ class ViewController: UIViewController {
     }
     
     func drawPolyline() {
-        let polyline = MGLPolyline(coordinates: coordinates, count: UInt(coordinates.count))
+        let polyline = MLNPolyline(coordinates: coordinates, count: UInt(coordinates.count))
         mapView.addAnnotation(polyline)
     }
     
@@ -60,7 +60,7 @@ class ViewController: UIViewController {
             CLLocationCoordinate2D(latitude: 10.765662, longitude: 106.681285),
             CLLocationCoordinate2D(latitude: 10.750961, longitude: 106.683948)
         ]
-        polygon = MGLPolygon(coordinates: coordinates, count: UInt(coordinates.count))
+        polygon = MLNPolygon(coordinates: coordinates, count: UInt(coordinates.count))
         mapView.addAnnotation(polygon!)
     }
     
@@ -71,7 +71,7 @@ class ViewController: UIViewController {
             coordinates.append((mapView.userLocation?.location?.coordinate)!)
         }
         let point = mapView.convert(tap.location(in: mapView), toCoordinateFrom: mapView)
-        let annotation = MGLPointAnnotation()
+        let annotation = MLNPointAnnotation()
         annotation.coordinate = point
         annotation.title = "Point"
         annotation.subtitle = "Subtitle point"
@@ -131,23 +131,23 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: MGLMapViewDelegate {
+extension ViewController: MLNMapViewDelegate {
     // MARK: Custom marker
-    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
+    func mapView(_ mapView: MLNMapView, imageFor annotation: MLNAnnotation) -> MLNAnnotationImage? {
         let image = UIImage(systemName: "car")!
         image.withTintColor(UIColor.red)
-        let annotationImage = MGLAnnotationImage(image: image, reuseIdentifier: "customAnnotation")
+        let annotationImage = MLNAnnotationImage(image: image, reuseIdentifier: "customAnnotation")
 
         return annotationImage
     }
     
     // MARK: Enable show tooltip with marker
-    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+    func mapView(_ mapView: MLNMapView, annotationCanShowCallout annotation: MLNAnnotation) -> Bool {
         return true
     }
     
     // MARK: Layout left on tooltip with marker
-    func mapView(_ mapView: MGLMapView, leftCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+    func mapView(_ mapView: MLNMapView, leftCalloutAccessoryViewFor annotation: MLNAnnotation) -> UIView? {
         let button = UIButton(type: .detailDisclosure)
         button.addTarget(self, action: #selector(leftButtonTapped(_:)), for: .touchUpInside)
         button.isUserInteractionEnabled = true
@@ -159,7 +159,7 @@ extension ViewController: MGLMapViewDelegate {
     }
 
     // MARK: Layout right on tooltip with marker
-    func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+    func mapView(_ mapView: MLNMapView, rightCalloutAccessoryViewFor annotation: MLNAnnotation) -> UIView? {
         let button = UIButton(type: .close)
         button.addTarget(self, action: #selector(rightButtonTapped(_:)), for: .touchUpInside)
         button.isUserInteractionEnabled = true
@@ -171,17 +171,17 @@ extension ViewController: MGLMapViewDelegate {
     }
     
     // MARK: Fill Color in polygon
-    func mapView(_ mapView: MGLMapView, fillColorForPolygonAnnotation annotation: MGLPolygon) -> UIColor {
+    func mapView(_ mapView: MLNMapView, fillColorForPolygonAnnotation annotation: MLNPolygon) -> UIColor {
         return UIColor.red.withAlphaComponent(0.5)
     }
     
     // MARK: Tap on tooltip
-    func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
+    func mapView(_ mapView: MLNMapView, tapOnCalloutFor annotation: MLNAnnotation) {
         print("tap on call out")
     }
     
     // MARK: Custom UIView of tooltip
-    func mapView(_ mapView: MGLMapView, calloutViewFor annotation: MGLAnnotation) -> MGLCalloutView? {
+    func mapView(_ mapView: MLNMapView, calloutViewFor annotation: MLNAnnotation) -> MLNCalloutView? {
         if !isUseCustomCallOut {
             return nil
         }

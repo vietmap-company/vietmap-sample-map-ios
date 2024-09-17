@@ -1,11 +1,11 @@
 import Foundation
 import VietMap
 
-class CustomCalloutView: UIView, MGLCalloutView {
+class CustomCalloutView: UIView, MLNCalloutView {
 
-    weak var delegate: MGLCalloutViewDelegate?
+    weak var delegate: MLNCalloutViewDelegate?
     
-    var representedObject: MGLAnnotation = MGLPointAnnotation()
+    var representedObject: MLNAnnotation = MLNPointAnnotation()
     var leftAccessoryView: UIView = UIView()
     var rightAccessoryView: UIView = UIView()
     

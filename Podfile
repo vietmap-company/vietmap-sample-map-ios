@@ -6,5 +6,5 @@ target 'sample' do
   use_frameworks!
 
   # Pods for sample
-  pod 'VietMap', '~> 1.2.2'
+  pod 'VietMap', '~> 2.0.0'
 end
